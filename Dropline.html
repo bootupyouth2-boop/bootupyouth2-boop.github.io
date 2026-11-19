@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dropline</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+:root{--bg:#0b0a1f;--card:#17143a;--ink:#f1eeff;--soft:#a9a3d6;--acc:#ff3b5c;--cy:#1fd1ff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark}}
+:root[data-theme="dark"]{color-scheme:dark}
+html,body{height:100%;margin:0;background:var(--bg);overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+body{font:600 16px/1.4 "Bricolage Grotesque",system-ui,sans-serif;color:var(--ink)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
+canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
+#hud{position:fixed;left:18px;top:calc(14px + env(safe-area-inset-top,0px));font:800 40px/1 "Bricolage Grotesque",system-ui,sans-serif;text-shadow:0 2px 12px #000a;z-index:6}
+#hud small{font-size:16px;color:var(--soft);margin-left:4px}
+#ov{position:fixed;inset:0;display:grid;place-items:center;background:rgba(11,10,31,.55);z-index:7;padding:20px}
+#ov.off{display:none}
+.card{background:var(--card);border:2px solid #2d2a66;border-radius:24px;padding:28px 26px;max-width:360px;text-align:center}
+h1{font:800 46px/1 "Bricolage Grotesque",system-ui,sans-serif;margin:0 0 12px;letter-spacing:-.02em;color:var(--cy)}
+.card p{margin:0 0 10px;color:var(--soft)}
+#best{color:var(--ink)}
+button{font:800 18px "Bricolage Grotesque",system-ui,sans-serif;background:var(--acc);color:#fff;border:0;border-radius:99px;padding:14px 38px;margin-top:8px;cursor:pointer}
+button:focus-visible{outline:3px solid var(--cy);outline-offset:3px}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hud">0<small>m</small></div>
+<div id="ov"><div class="card"><h1>Dropline</h1><p id="msg">Roll down the track and dodge the red blocks. Don’t fall off the edge.</p><p>Steer with ← → or A / D. On a phone, touch the left or right half of the screen.</p><p id="best"></p><button id="go">Play</button></div></div>
+<script>
+var T=THREE,cv=document.getElementById("c"),R=new T.WebGLRenderer({canvas:cv,antialias:true});
+R.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+var S=new T.Scene();S.background=new T.Color(0x0b0a1f);S.fog=new T.Fog(0x0b0a1f,30,95);
+var cam=new T.PerspectiveCamera(65,1,.1,200);
+S.add(new T.AmbientLight(0xffffff,.65));var dl=new T.DirectionalLight(0xffffff,.8);dl.position.set(-5,12,6);S.add(dl);
+function size(){var w=innerWidth,h=innerHeight;R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
+addEventListener("resize",size);size();
+
+var W=3,L=4,C=5,X0=-7.5,AHEAD=48;
+var gF=new T.BoxGeometry(W-.12,.6,L-.12),gB=new T.BoxGeometry(W-.4,1.6,L-.4);
+var mA=new T.MeshLambertMaterial({color:0x1fd1ff}),mB=new T.MeshLambertMaterial({color:0x13a3d6}),mR=new T.MeshLambertMaterial({color:0xff3b5c,emissive:0x550015});
+var ball=new T.Mesh(new T.SphereGeometry(.7,24,16),new T.MeshLambertMaterial({color:0xffffff,emissive:0x333344}));S.add(ball);
+
+var rows={},gen=0,old=0,safe=2,pv=2,st="ready",x=0,y=.7,z=-1,vy=0,sp=14,dir=0,keys={l:0,r:0},best=0;
+try{best=+localStorage.getItem("dropline-best")||0}catch(e){}
+
+function mkRow(i){
+  var cells=[];
+  if(i>=6&&i%4===0){pv=safe;safe=Math.max(0,Math.min(C-1,safe+[-1,0,1][Math.floor(Math.random()*3)]))}
+  var d=Math.min(.6,.12+i*.0025);
+  for(var c=0;c<C;c++){
+    var v=0;
+    if(i>=6&&c!==safe&&!(i%4<2&&c===pv)){var r=Math.random();v=r<d*.45?1:(r<d?2:0)}
+    cells.push(v);
+  }
+  var g=new T.Group(),zc=-(i+.5)*L;
+  cells.forEach(function(v,c){
+    if(v===1)return;
+    var cx=X0+(c+.5)*W,f=new T.Mesh(gF,i%2?mA:mB);
+    f.position.set(cx,-.3,zc);g.add(f);
+    if(v===2){var b=new T.Mesh(gB,mR);b.position.set(cx,.8,zc);g.add(b)}
+  });
+  S.add(g);rows[i]={cells:cells,g:g};
+}
+function reset(){
+  for(var k in rows)S.remove(rows[k].g);
+  rows={};gen=0;old=0;safe=2;pv=2;x=0;y=.7;z=-1;vy=0;sp=14;dir=0;
+  fill(0);
+}
+function fill(i){while(gen<i+AHEAD)mkRow(gen++);while(old<i-6){if(rows[old]){S.remove(rows[old].g);delete rows[old]}old++}}
+function hud(){document.getElementById("hud").firstChild.nodeValue=Math.floor(-z)}
+function over(msg){
+  st="over";
+  var m=Math.floor(-z);
+  if(m>best){best=m;try{localStorage.setItem("dropline-best",best)}catch(e){}}
+  document.getElementById("msg").textContent=msg+" You rolled "+m+" m.";
+  document.getElementById("best").textContent="Best: "+best+" m";
+  document.getElementById("go").textContent="Play again";
+  document.getElementById("ov").classList.remove("off");
+}
+function start(){if(st==="play"||st==="fall")return;reset();st="play";document.getElementById("ov").classList.add("off")}
+
+var last=performance.now();
+function frame(t){
+  var dt=Math.min((t-last)/1000,.05);last=t;
+  if(st==="play"||st==="fall"){
+    sp=Math.min(14+(-z)*.025,42);
+    var tx=Math.max(-1,Math.min(1,keys.r-keys.l+dir));
+    if(st==="play")x+=tx*(8+sp*.18)*dt;
+    z-=sp*dt;
+    var i=Math.floor(-z/L),col=Math.floor((x-X0)/W),row=rows[i];
+    var cell=(row&&col>=0&&col<C)?row.cells[col]:1;
+    if(cell!==1&&y>.2&&y<=.7&&st==="play"){y=.7;vy=0}
+    else{vy-=34*dt;y+=vy*dt;if(cell===1&&st==="play"&&y<.65)st="fall"}
+    if(cell===2&&y<2.2&&st==="play"){over("You hit a block.")}
+    if(y<-7&&st==="fall")over("You fell off the track.");
+    ball.rotation.x-=sp*dt/.7;
+    fill(i);hud();
+  }
+  ball.position.set(x,y,z);
+  cam.position.set(x*.7,y+4,z+8.5);cam.lookAt(x*.7,0,z-12);
+  R.render(S,cam);
+  requestAnimationFrame(frame);
+}
+reset();requestAnimationFrame(frame);
+
+document.getElementById("go").onclick=start;
+addEventListener("keydown",function(e){
+  if(e.key==="ArrowLeft"||e.key==="a"||e.key==="A")keys.l=1;
+  if(e.key==="ArrowRight"||e.key==="d"||e.key==="D")keys.r=1;
+  if((e.key===" "||e.key==="Enter")&&st!=="play"&&st!=="fall"){e.preventDefault();start()}
+});
+addEventListener("keyup",function(e){
+  if(e.key==="ArrowLeft"||e.key==="a"||e.key==="A")keys.l=0;
+  if(e.key==="ArrowRight"||e.key==="d"||e.key==="D")keys.r=0;
+});
+function touch(e){if(e.target.closest("button"))return;dir=e.clientX<innerWidth/2?-1:1}
+addEventListener("pointerdown",touch);
+addEventListener("pointermove",function(e){if(e.buttons||e.pointerType==="touch")touch(e)});
+addEventListener("pointerup",function(){dir=0});
+addEventListener("pointercancel",function(){dir=0});
+</script>
+</body>
+</html>
