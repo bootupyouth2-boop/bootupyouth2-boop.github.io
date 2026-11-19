@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cassie Menor</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,600&family=Nunito+Sans:wght@400;600&display=swap">
+<style>
+:root{--bg:#fff3f7;--card:#fff;--ink:#4a1530;--soft:#8a4f68;--rose:#e8799f;--berry:#b8336a;--blush:#fad1e0;--line:#f3a9c4;--btn:#b8336a;--btnink:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#2a0e1c;--card:#3a1427;--ink:#ffe6ef;--soft:#e2adc4;--rose:#f08fb2;--berry:#f08fb2;--blush:#4d1a34;--line:#7a3556;--btn:#f08fb2;--btnink:#3a1427}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#2a0e1c;--card:#3a1427;--ink:#ffe6ef;--soft:#e2adc4;--rose:#f08fb2;--berry:#f08fb2;--blush:#4d1a34;--line:#7a3556;--btn:#f08fb2;--btnink:#3a1427}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 "Nunito Sans",system-ui,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+.serif{font-family:Fraunces,Georgia,serif}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;align-items:center;justify-content:space-between;padding:12px 5vw;background:var(--bg);border-bottom:2px dashed var(--line)}
+.logo{display:flex;align-items:center;gap:8px;font:italic 600 28px/1 Fraunces,Georgia,serif;color:var(--berry);text-decoration:none}
+.logo svg{width:34px;height:34px}
+nav{display:flex;gap:22px;align-items:center}
+nav a{color:var(--ink);text-decoration:none;font-weight:600}
+nav a:hover{color:var(--berry)}
+.search{flex:1;max-width:380px;margin:0 18px}.search input{width:100%;padding:9px 16px 9px 38px;border:2px solid var(--line);border-radius:99px;background:var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23b8336a' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='8.5' cy='8.5' r='6'/%3E%3Cpath d='M13 13l5 5'/%3E%3C/svg%3E") no-repeat 13px center/16px;color:var(--ink);font:400 15px "Nunito Sans",sans-serif}.search input::placeholder{color:var(--soft)}.search input:focus-visible{outline:3px solid var(--rose);outline-offset:2px}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.card[hidden]{display:none}.none{color:var(--soft);margin:10px 0 0}
+.bag{border:2px solid var(--berry);background:none;color:var(--berry);border-radius:99px;padding:6px 16px;font:600 15px "Nunito Sans",sans-serif;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid var(--rose);outline-offset:3px}
+.hero{background:var(--blush);padding:56px 5vw 40px;position:relative;overflow:hidden}
+.hero-in{max-width:1080px;margin:auto;display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center}
+h1{font:500 clamp(38px,6vw,68px)/1.05 Fraunces,Georgia,serif;margin:0 0 18px;letter-spacing:-.01em}
+.hero p{max-width:46ch;color:var(--soft);font-size:18px;margin:0 0 26px}
+.cta{display:inline-block;background:var(--btn);color:var(--btnink);padding:14px 30px;border-radius:99px;font-weight:600;text-decoration:none;box-shadow:0 4px 0 rgba(120,20,70,.25)}
+.stage{position:relative;background:radial-gradient(circle at 50% 40%,#fff6,transparent 70%);border:3px dashed var(--rose);border-radius:200px 200px 24px 24px;padding:20px 20px 6px}
+.stage svg.g{width:100%;height:auto;display:block}
+.fl{position:absolute;color:var(--rose)}
+.scallop{height:14px;background:radial-gradient(circle at 12px 0,var(--blush) 11px,transparent 12px) 0 0/24px 14px repeat-x}
+.sec{max-width:1080px;margin:auto;padding:54px 5vw 70px}
+.sec h2{font:italic 600 clamp(30px,4vw,42px)/1.1 Fraunces,Georgia,serif;color:var(--berry);margin:0 0 6px}
+.sec>p{margin:0 0 30px;color:var(--soft)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:24px}
+.card{background:var(--card);border:2px dashed var(--line);border-radius:22px;padding:12px 12px 18px;display:flex;flex-direction:column}
+.pic{background:linear-gradient(180deg,var(--blush),var(--bg));border-radius:14px;padding:10px 6px 0}
+.pic svg{width:100%;height:auto;display:block}
+.card h3{font:500 21px/1.2 Fraunces,Georgia,serif;margin:14px 6px 2px}
+.card .d{margin:0 6px;color:var(--soft);font-size:14px}
+.row{display:flex;align-items:center;justify-content:space-between;margin:12px 6px 0}
+.price{font:600 19px Fraunces,Georgia,serif;color:var(--berry)}
+.add{background:var(--btn);color:var(--btnink);border:0;border-radius:99px;padding:8px 18px;font:600 14px "Nunito Sans",sans-serif;cursor:pointer}
+.add:active{transform:translateY(1px)}
+.promise{background:var(--blush);padding:34px 5vw}
+.promise div{max-width:1080px;margin:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;text-align:center}
+.promise b{display:block;font:italic 600 20px Fraunces,Georgia,serif;color:var(--berry)}
+.promise span{color:var(--soft);font-size:14px}
+footer{text-align:center;padding:36px 5vw;color:var(--soft);font-size:14px}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translate(-50%,120px);background:var(--ink);color:var(--bg);padding:10px 20px;border-radius:99px;transition:transform .25s;z-index:20;font-weight:600}
+.toast.on{transform:translate(-50%,0)}
+@media (max-width:760px){.hero-in{grid-template-columns:1fr}nav a{display:none}header{flex-wrap:wrap}.search{order:3;flex-basis:100%;max-width:none;margin:10px 0 0}.stage{max-width:340px;margin:auto}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.toast{transition:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<linearGradient id="sheen" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".35" stop-color="#fff" stop-opacity=".02"/><stop offset=".7" stop-color="#000" stop-opacity=".05"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient>
+<linearGradient id="shade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset=".6" stop-color="#000" stop-opacity=".03"/><stop offset="1" stop-color="#000" stop-opacity=".16"/></linearGradient>
+<pattern id="rib" width="5" height="5" patternUnits="userSpaceOnUse"><rect width="2" height="5" fill="#000" opacity=".09"/></pattern>
+<symbol id="fl" viewBox="0 0 40 40"><g fill="currentColor"><circle cx="20" cy="8" r="7"/><circle cx="32" cy="17" r="7"/><circle cx="27" cy="31" r="7"/><circle cx="13" cy="31" r="7"/><circle cx="8" cy="17" r="7"/></g><circle cx="20" cy="20" r="5" fill="#ffe08a"/></symbol>
+<symbol id="bow" viewBox="0 0 40 40"><path d="M20 20 L4 8 Q0 20 4 32 Z M20 20 L36 8 Q40 20 36 32 Z" fill="currentColor"/><circle cx="20" cy="20" r="5" fill="currentColor" stroke="#fff6" stroke-width="1.5"/></symbol>
+</defs>
+</svg>
+
+<header>
+<a class="logo" href="#top"><svg viewBox="0 0 40 40" style="color:var(--rose)" aria-hidden="true"><use href="#bow"/></svg>Cassie Menor</a>
+<label class="search"><span class="sr">Search clothes</span><input id="q" type="search" placeholder="Search clothes" autocomplete="off"></label>
+<nav><a href="#shop">Shop</a><a href="#promise">Our promise</a><button class="bag" id="bag" aria-label="Shopping bag">Bag (0)</button></nav>
+</header>
+
+<main id="top">
+<section class="hero">
+<div class="hero-in">
+<div>
+<h1>Find ur fashion</h1>
+<p>Cassie Menor makes soft, well-sewn clothes in every shade of pink, for long lunches, late trains and everything in between.</p>
+<a class="cta" href="#shop">Shop the collection</a>
+</div>
+<div class="stage" id="heroG"></div>
+</div>
+</section>
+<div class="scallop"></div>
+
+<section class="sec" id="shop">
+<h2>The pink edit</h2>
+<p>Six pieces we can’t stop wearing. Add anything to your bag.</p>
+<div class="grid" id="grid"></div>
+<p id="none" class="none" hidden>No matches. Try “dress”, “jeans” or “knit”.</p>
+</section>
+
+<section class="promise" id="promise"><div>
+<p><b>Free delivery over $60</b><span>Wrapped in tissue, tied with ribbon.</span></p>
+<p><b>30-day returns</b><span>Not your colour? Send it back.</span></p>
+<p><b>Sewn to last</b><span>Double-stitched seams and soft cotton.</span></p>
+</div></section>
+</main>
+
+<footer><span class="serif" style="font-style:italic;color:var(--berry);font-size:20px">Cassie Menor</span><br>Made with love, in pink. © 2026</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+// garment drawings: body path, details, base colour
+var P={
+dress:{d:"M80 40 L88 40 L93 70 Q100 78 107 70 L112 40 L120 40 L126 78 L117 108 L150 226 Q100 240 50 226 L83 108 L74 78 Z",
+x:'<path d="M83 108 Q100 115 117 108" fill="none" stroke="#000" stroke-opacity=".2" stroke-width="1.6"/><path d="M92 116 Q80 170 64 228 M100 118 L100 236 M108 116 Q120 170 136 228 M96 118 Q90 175 82 232 M104 118 Q110 175 118 232" fill="none" stroke="#000" stroke-opacity=".13" stroke-width="2"/><path d="M86 82 Q100 92 114 82" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="1.5" stroke-dasharray="3 3"/>'},
+tee:{d:"M70 44 L92 36 Q100 50 108 36 L130 44 L158 76 L140 92 L128 80 L128 214 L72 214 L72 80 L60 92 L42 76 Z",
+x:'<path d="M92 36 Q100 54 108 36" fill="none" stroke="#000" stroke-opacity=".25" stroke-width="3"/><path d="M72 206 H128 M72 80 L72 90 M128 80 V90" stroke="#000" stroke-opacity=".3" stroke-dasharray="3 3" fill="none"/><path d="M84 120 Q90 160 82 205 M116 110 Q112 150 118 200" fill="none" stroke="#000" stroke-opacity=".08" stroke-width="3"/>'},
+jeans:{d:"M64 40 H136 L148 230 H109 L100 106 L91 230 H52 Z",
+x:'<path d="M64 56 H136" stroke="#fff" stroke-opacity=".45" stroke-dasharray="3 3" fill="none"/><path d="M100 56 V106 M100 56 Q112 80 106 100" fill="none" stroke="#fff" stroke-opacity=".4" stroke-dasharray="3 3"/><path d="M68 60 Q74 92 92 84 M132 60 Q126 92 108 84" fill="none" stroke="#fff" stroke-opacity=".45" stroke-dasharray="3 3"/><circle cx="100" cy="49" r="3.4" fill="#e9c97a"/><path d="M62 220 H98 M104 220 H142" stroke="#fff" stroke-opacity=".4" stroke-dasharray="3 3"/><path d="M76 120 Q70 160 66 205 M124 120 Q130 160 134 205" fill="none" stroke="#fff" stroke-opacity=".12" stroke-width="5"/>'},
+cardi:{d:"M72 40 L92 34 L100 46 L108 34 L128 40 L156 76 L142 162 L128 156 L128 216 L72 216 L72 156 L58 162 L44 76 Z",
+x:'<rect x="72" y="198" width="56" height="18" fill="url(#rib)"/><rect x="44" y="148" width="14" height="14" fill="url(#rib)" transform="rotate(-8 50 155)"/><path d="M70 50 L100 46 L130 50 V198 H70Z" fill="url(#rib)" opacity=".7"/><path d="M100 46 V216" stroke="#000" stroke-opacity=".22" stroke-width="2"/><path d="M92 34 L100 46 L108 34" fill="none" stroke="#000" stroke-opacity=".2" stroke-width="2"/><g fill="#fff6e8" stroke="#000" stroke-opacity=".2"><circle cx="105" cy="72" r="3.4"/><circle cx="105" cy="100" r="3.4"/><circle cx="105" cy="128" r="3.4"/><circle cx="105" cy="156" r="3.4"/><circle cx="105" cy="184" r="3.4"/></g>'},
+skirt:{d:"M70 44 H130 L156 226 Q100 238 44 226 Z",
+x:'<path d="M70 60 H130" stroke="#000" stroke-opacity=".2" stroke-width="1.6"/><path d="M76 60 L56 230 M84 60 L70 233 M92 60 L84 235 M100 60 L100 236 M108 60 L116 235 M116 60 L130 233 M124 60 L144 230" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="2.2"/><path d="M80 60 L63 230 M96 60 L92 236 M112 60 L122 235 M128 60 L150 228" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="2"/><circle cx="124" cy="52" r="3" fill="#fff" fill-opacity=".7"/>'},
+hood:{d:"M72 58 Q100 24 128 58 L160 94 L146 120 L130 106 L130 218 L70 218 L70 106 L54 120 L40 94 Z",
+x:'<path d="M82 58 Q100 92 118 58 Q100 36 82 58Z" fill="#000" fill-opacity=".2"/><path d="M94 76 V108 M106 76 V108" stroke="#fff" stroke-opacity=".75" stroke-width="2.6" stroke-linecap="round"/><path d="M78 162 H122 L128 198 H72 Z" fill="none" stroke="#000" stroke-opacity=".25" stroke-width="1.6"/><rect x="70" y="206" width="60" height="12" fill="url(#rib)"/><rect x="42" y="106" width="14" height="14" fill="url(#rib)" transform="rotate(-30 49 113)"/><path d="M80 120 Q76 150 78 170 M120 120 Q124 150 122 170" fill="none" stroke="#000" stroke-opacity=".08" stroke-width="4"/>'}
+};
+function art(t,c,label){var g=P[t];
+return '<svg class="g" viewBox="0 0 200 250" role="img" aria-label="'+label+'">'+
+'<ellipse cx="100" cy="242" rx="62" ry="5" fill="#000" opacity=".12"/>'+
+'<path d="M100 40 V26 Q100 18 108 18 Q116 18 116 25" fill="none" stroke="#b9a0ab" stroke-width="3" stroke-linecap="round"/>'+
+'<path d="'+g.d+'" fill="'+c+'" stroke="#000" stroke-opacity=".18" stroke-width="1.2" stroke-linejoin="round"/>'+g.x+
+'<path d="'+g.d+'" fill="url(#sheen)"/><path d="'+g.d+'" fill="url(#shade)"/></svg>';}
+var items=[
+["Blossom sundress","dress","#f29bb8","Flared skirt, tie-back straps, tiny flowers.","$68"],
+["Ribbon tee","tee","#fff0f4","Soft cotton jersey with a bow at the chest.","$34"],
+["Rosewater jeans","jeans","#6d8fb8","High-rise straight leg, washed and worn in.","$74"],
+["Candy knit cardigan","cardi","#ee86a9","Chunky rib knit with pearl-style buttons.","$82"],
+["Pleated mini skirt","skirt","#d98fc0","Knife pleats that swing when you walk.","$52"],
+["Berry hoodie","hood","#c2407a","Heavy fleece, deep hood and front pocket.","$78"]];
+document.getElementById("heroG").innerHTML=art("dress","#f29bb8","Blossom sundress on a hanger");
+var grid=document.getElementById("grid");
+items.forEach(function(it,i){
+grid.insertAdjacentHTML("beforeend",'<article class="card"><div class="pic">'+art(it[1],it[2],it[0])+'</div><h3>'+it[0]+'</h3><p class="d">'+it[3]+'</p><div class="row"><span class="price">'+it[4]+'</span><button class="add" data-i="'+i+'">Add to bag</button></div></article>');});
+var n=0,bag=document.getElementById("bag"),toast=document.getElementById("toast"),tm;
+grid.addEventListener("click",function(e){var b=e.target.closest(".add");if(!b)return;
+n++;bag.textContent="Bag ("+n+")";toast.textContent=items[b.dataset.i][0]+" added to your bag";toast.classList.add("on");
+clearTimeout(tm);tm=setTimeout(function(){toast.classList.remove("on")},1800);});
+var q=document.getElementById("q"),none=document.getElementById("none");
+q.addEventListener("input",function(){var v=q.value.trim().toLowerCase(),shown=0;
+document.querySelectorAll(".card").forEach(function(c,i){var it=items[i],hit=!v||(it[0]+" "+it[1]+" "+it[3]).toLowerCase().indexOf(v)>-1;c.hidden=!hit;if(hit)shown++;});none.hidden=shown>0;});
+q.addEventListener("keydown",function(e){if(e.key==="Enter")document.getElementById("shop").scrollIntoView();});
+</script>
+</body>
+</html>
